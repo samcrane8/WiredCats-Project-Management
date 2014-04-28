@@ -11,6 +11,7 @@ public boolean isTeammateCentric = true;
 
 void setup(){
   size(SCREENW, SCREENH);
+  
   team = new LinkedList<Teammate>();
   positions = new LinkedList<Position>();
   entities = new LinkedList<Entity>();
@@ -29,33 +30,33 @@ void setup(){
      p.setEntity(new Entity((int)random(SCREENW-100)+50, (int)random(SCREENH-100)+50));
      entities.add(p.getEntity());
   }
-  
-  draw_positions();
 }
 
 
-void loop(){
+void draw(){
   background(255);
+  adjustPositions();
   draw_positions();
 }
 
 void adjustPositions(){
    for (Entity beingMoved : entities){
       for (Entity p2 : entities){
-        if (beingMoved == p2) continue;
-          PVector repulse = repulsionValue(beingMoved, p2);
-          beingMoved.move(repulse);
+        
       } 
    }
 }
 
 PVector repulsionValue(Entity appliedTo, Entity appliedBy){
   double x = appliedBy.globalX - appliedTo.globalX;
-  x = 1/(x*x);
+  x *= .09;
+  x = 1/(x);
   double y = appliedBy.globalY - appliedTo.globalY;
-  y = 1/(y*y);
+  y*= .09;
+  y = 1/(y);
   return new PVector((int)x, (int)y);
 }
+
 
 double distanceBetweenEntities(Entity e1, Entity e2){
   return sqrt( pow(e1.globalX - e2.globalX, 2) + pow(e1.globalY - e2.globalY, 2));

@@ -46,6 +46,18 @@ void setup() {
   }
 }
 
+void mousePressed(){
+   
+}
+
+void mouseDragged(){
+  for (Position p : positions) {
+    if (p.isTouching(mouseX, mouseY)) {
+      p.getEntity().setPos(mouseX, mouseY);
+    }
+  }
+}
+
 
 void draw() {
   background(255);
@@ -71,6 +83,11 @@ void getInteractions() {
            moved.getEntity().move(repulsionValue(b.getEntity(),moved.getEntity()));
        else moved.getEntity().move(repulsionValue(b.getEntity(),moved.getEntity()));
     }
+    Entity yeah = moved.getEntity();
+    if (yeah.globalX < 50 ) yeah.globalX = 50;
+    if (yeah.globalX > SCREENW-50) yeah.globalX = SCREENW -50;
+    if (yeah.globalY < 50 ) yeah.globalY = 50;
+    if (yeah.globalY > SCREENH-50) yeah.globalY = SCREENH-50;
   }
 }
 
@@ -92,10 +109,10 @@ boolean isColliding(Position p ) {
 
 PVector repulsionValue(Entity appliedTo, Entity appliedBy) {
   double x = appliedBy.globalX - appliedTo.globalX;
-  x *= .01;
+  x *= .05;
   x = 1/(x);
   double y = appliedBy.globalY - appliedTo.globalY;
-  y*= .01;
+  y*= .05;
   y = 1/(y);
   return new PVector((int)x, (int)y);
 }
@@ -103,6 +120,10 @@ PVector repulsionValue(Entity appliedTo, Entity appliedBy) {
 
 double distanceBetweenEntities(Entity e1, Entity e2) {
   return sqrt( pow(e1.globalX - e2.globalX, 2) + pow(e1.globalY - e2.globalY, 2));
+}
+
+PVector vectorBetweenEntities(Entity e1, Entity e2){
+  return new PVector (e1.globalX-e2.globalX,e1.globalY-e2.globalY);
 }
 
 void draw_positions() {

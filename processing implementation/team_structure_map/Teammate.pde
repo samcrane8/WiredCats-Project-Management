@@ -15,6 +15,16 @@ public class Teammate {
    return name;
  }
  
+ public boolean isTouching(int x, int y){
+   if (x > x + 4*name.length() ||
+       x < x - 4*name.length() ||
+       y > y + 4*name.length() ||
+       y < y - 4*name.length() ){
+           return false;
+       }
+       return true;
+ }
+ 
  public void m_draw(int x, int y){
    color(200,200,200);
    fill(255);
